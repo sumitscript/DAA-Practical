@@ -1,0 +1,24 @@
+def unique_paths(m, n):
+    # Initialize the dp array
+    dp = [[0] * n for _ in range(m)]
+    
+    # Set the first column to 1 (only one way to move down)
+    for i in range(m):
+        dp[i][0] = 1
+    
+    # Set the first row to 1 (only one way to move right)
+    for j in range(n):
+        dp[0][j] = 1
+    
+    # Fill the dp array
+    for i in range(1, m):
+        for j in range(1, n):
+            dp[i][j] = dp[i - 1][j] + dp[i][j - 1]
+    
+    return dp[m - 1][n - 1]
+
+# Hardcoded values
+m = 3
+n = 7
+
+print(unique_paths(m, n))
