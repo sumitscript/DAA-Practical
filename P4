@@ -1,0 +1,32 @@
+def can_place_cows(stall_positions, c, distance):
+    count = 1
+    last_position = stall_positions[0]
+
+    for i in range(1, len(stall_positions)):
+        if stall_positions[i] - last_position >= distance:
+            count += 1
+            last_position = stall_positions[i]
+            if count >= c:
+                return True
+
+    return False
+
+def largest_min_distance(stall_positions, c):
+    stall_positions.sort()
+    left, right = 0, stall_positions[-1] - stall_positions[0]
+    best_distance = 0
+
+    while left <= right:
+        mid = (left + right) // 2
+        if can_place_cows(stall_positions, c, mid):
+            best_distance = mid
+            left = mid + 1
+        else:
+            right = mid - 1
+
+    return best_distance
+
+# Hardcoded values
+stall_positions = [1, 2, 8, 4, 9]
+c = 3
+print(largest_min_distance(stall_positions, c))
