@@ -1,0 +1,33 @@
+def dfs(grid, i, j, N, M):
+    if i < 0 or i >= N or j < 0 or j >= M or grid[i][j] == '0':
+        return
+    grid[i][j] = '0'
+    dfs(grid, i + 1, j, N, M)
+    dfs(grid, i - 1, j, N, M)
+    dfs(grid, i, j + 1, N, M)
+    dfs(grid, i, j - 1, N, M)
+
+def num_islands(grid):
+    if not grid:
+        return 0
+    N = len(grid)
+    M = len(grid[0])
+    number_of_islands = 0
+
+    for i in range(N):
+        for j in range(M):
+            if grid[i][j] == '1':
+                number_of_islands += 1
+                dfs(grid, i, j, N, M)
+    
+    return number_of_islands
+
+# Hardcoded grid
+grid = [
+    ['1', '1', '0', '0', '0'],
+    ['1', '1', '0', '0', '0'],
+    ['0', '0', '1', '0', '0'],
+    ['0', '0', '0', '1', '1']
+]
+
+print(num_islands(grid))
