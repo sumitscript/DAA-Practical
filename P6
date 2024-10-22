@@ -1,0 +1,39 @@
+def dfs(node, parent, ids, low, graph, bridges, visited, id_val):
+    visited[node] = True
+    ids[node] = low[node] = id_val
+    id_val += 1
+
+    for neighbor in graph[node]:
+        if neighbor == parent:
+            continue
+        if not visited[neighbor]:
+            dfs(neighbor, node, ids, low, graph, bridges, visited, id_val)
+            low[node] = min(low[node], low[neighbor])
+
+            if ids[node] < low[neighbor]:
+                bridges.append([node, neighbor])
+        else:
+            low[node] = min(low[node], ids[neighbor])
+
+def critical_connections(n, connections):
+    graph = [[] for _ in range(n)]
+    for u, v in connections:
+        graph[u].append(v)
+        graph[v].append(u)
+
+    ids = [-1] * n
+    low = [-1] * n
+    visited = [False] * n
+    bridges = []
+    id_val = 0
+
+    for i in range(n):
+        if not visited[i]:
+            dfs(i, -1, ids, low, graph, bridges, visited, id_val)
+
+    return bridges
+
+# Hardcoded values
+n = 4
+connections = [[0, 1], [1, 2], [2, 0], [1, 3]]
+print(critical_connections(n, connections))
